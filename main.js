@@ -11,19 +11,21 @@ const addElement = (e, node, txt, attr, value) => {
 
 const searchElement = (e, nameElement) => {
   e.preventDefault();
-  const elements = document.querySelectorAll(nameElement);
   const infoElement = document.querySelector('.result');
+  infoElement.textContent = ""; // reset results
+  const elements = document.querySelectorAll(nameElement);
   if (elements.length) {
-    infoElement.innerHTML = `<p>W tym dokumencie znalazłem <strong>${elements.length}</strong> elementów <strong>${nameElement}</strong></p>`
+    infoElement.innerHTML = `<p class="result__number-info">W tym dokumencie znalazłem <strong>${elements.length}</strong> elementów <strong>${nameElement}</strong></p>`
     showInfo(elements, infoElement);
   } else {
-    infoElement.innerHTML = `<p>W tym dokumencie nie znalazłem elementów <strong>${nameElement}</strong></p>`
+    infoElement.innerHTML = `<p class="result__number-info">W tym dokumencie nie znalazłem elementów <strong>${nameElement}</strong></p>`
   }
 };
 
 const showInfo = (elements, infoElement) => {
   elements.forEach(element => {
     const item = document.createElement('div');
+    item.className = 'result__element-info'
     item.innerHTML = `
   <div><strong>${element.nodeName}</strong></div>
   <div>Klasy: <strong>${element.className}</strong></div>
@@ -49,4 +51,7 @@ addForm.addEventListener('submit', (e) => addElement(
 ));
 
 const searchForm = document.querySelector('.form--search');
-searchForm.addEventListener('submit', (e) => searchElement(e, searchForm.elements["searching-element"].value));
+searchForm.addEventListener('submit', (e) => searchElement(
+  e,
+  searchForm.elements["searching-element"].value
+));
